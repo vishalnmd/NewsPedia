@@ -1,25 +1,53 @@
-import logo from './logo.svg';
 import './App.css';
+import { Component } from 'react';
+import Navbar from './component/Navbar';
+import NewList from './component/NewList';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class Func extends Component{
+
+  constructor(props){
+    super(props);
+    this.state ={
+      articles:null
+    }
+  }
+  setQuery = (query)=>{
+      this.setState({
+        query:query
+      })
+  }
+
+  onSearch = async (searcher)=>{
+    if(searcher ==null){
+      searcher = "top headlines";
+    }
+    let api = `https://newsapi.org/v2/everything?q=${searcher}&from=2024-07-11&sortBy=popularity&apiKey=d24894c8737b466285c33f874954894f`;
+    let option = {
+      method:"GET",
+      // apiKey:"5f9ce4c720ea4daab0fe680193980b4f"
+      apiKey:"d24894c8737b466285c33f874954894f"
+   }
+    let response = await fetch(api,option);
+    let json = await response.json();
+    this.setState({
+      articles:json.articles
+    });
+
+    console.log(json);
+
+  }
+
+  render(){
+
+    let {articles} = this.state;
+
+      return(
+        <>
+            <Navbar onsearch={this.onSearch}/>
+            <NewList articles={articles}/>            
+        </>
+      );
+  }
 }
 
-export default App;
+export default Func;
