@@ -1,33 +1,10 @@
-let api = "https://newsapi.org/v2/everything?q=cricket&from=2024-07-11&sortBy=popularity&apiKey=5f9ce4c720ea4daab0fe680193980b4f";
+let api = "https://newsdata.io/api/1/latest?apikey=pub_49020b2426982e3baff9174122d14619df4f1&q=pizza";
 
-let apiKey = "5f9ce4c720ea4daab0fe680193980b4f";
+let res;
 
-let option = {
-    method:"GET",
-    apiKey:"5f9ce4c720ea4daab0fe680193980b4f",
-    q:"android"
-}
-
-// let response = fetch(api,option);
-
-let globData;
-
-// let data = response.then((json)=>{
-//     return json.json();
-// }).then((data)=>{
-//     globData = data;
-//     console.log(globData);
-// });
-
-let fetchData = async ()=>{
-    let data = await fetch(api,option);
+let data = fetch(api).then((response)=>{
+    return response.json();
+}).then((data)=>{
     console.log(data);
-
-    let jdata = await data.json();
-    console.log(jdata);
-
-    globData = jdata.articles;
-}
-
-fetchData();
-console.log(globData);
+    res = data;
+})
