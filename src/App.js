@@ -1,7 +1,7 @@
 import './App.css';
 import { Component } from 'react';
 import Navbar from './component/Navbar';
-import NewList from './component/NewList';
+import NewList from './component/NewsList';
 
 class Func extends Component{
 

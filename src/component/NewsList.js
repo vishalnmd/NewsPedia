@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import NewItem from './NewItem'
+import NewItem from './NewsItem'
 
 export class NewList extends Component {
   
@@ -29,7 +29,11 @@ export class NewList extends Component {
     const {articles} = this.props;
 
     if(!articles){
-      return <div>loading...</div>
+      return <div className='container-fluid d-flex'>
+              <div className="spinner-border justify-content-center" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+      </div>
     }
     
     return (
