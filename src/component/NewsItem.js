@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 
-export class NewItem extends Component {
+export class NewsItem extends Component {
   render(props) {
     return (
       <>
         {console.log(props)}
-        <div className="card shadow p-3 mb-5 bg-body-tertiary rounded" style={{width: '18rem'}}>
-            <img src={this.props.img} className="card-img-top" alt="..."/>
+        <div className="card shadow p-3 mb-5 bg-body-tertiary rounded mw-100 h-80"  style={{width: '18rem'}}>
+            <img src={this.props.img} style={{width:"15em",height:"10em",objectFit:"cover",padding:"0.5em"}} className="card-img-top" alt="..."/>
             <div className="card-body">
                 <h5 className="card-title">{this.props.title}</h5>
                 <p className="card-text">{this.props.desp}</p>
@@ -18,4 +18,4 @@ export class NewItem extends Component {
   }
 }
 
-export default NewItem
+export default NewsItem

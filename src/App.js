@@ -1,53 +1,62 @@
 import './App.css';
 import { Component } from 'react';
 import Navbar from './component/Navbar';
-import NewList from './component/NewsList';
+import NewsList from './component/NewsList';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 class Func extends Component{
 
   constructor(props){
     super(props);
     this.state ={
-      articles:null
+      articles:null,
+      category:"top"
     }
-  }
-  setQuery = (query)=>{
-      this.setState({
-        query:query
-      })
   }
 
-  onSearch = async (searcher)=>{
-    if(searcher ==null){
-      searcher = "top headlines";
-    }
-    // let api = `https://newsapi.org/v2/everything?q=${searcher}&from=2024-07-11&sortBy=popularity&apiKey=d24894c8737b466285c33f874954894f`;
-    let api = `https://newsdata.io/api/1/latest?apikey=pub_49020b2426982e3baff9174122d14619df4f1&q=${searcher}`;
-    let option = {
-      method:"GET",
-      // apiKey:"5f9ce4c720ea4daab0fe680193980b4f"
-      apiKey:"TfTOk2_goyvEdJOxZr0XJxoKoEKLU5Fpk_Q8CS9THWq1k95S"
-   }
-    let response = await fetch(api,option);
-    let json = await response.json();
+  setArticles = (arts)=>{
     this.setState({
-      // articles:json.articles
-      articles:json.results
-    });
+      articles:arts
+    })
+  }
 
-    console.log(json);
+  setCategory = (category)=>{
+    this.setState({
+      category:category
+    })
+    this.fetchArticles(category);
+  }
 
+  componentDidMount() {
+    this.fetchArticles(this.state.category); // Fetch articles when component mounts
+  }
+
+  fetchArticles = async (category) => {
+    const api = `https://newsdata.io/api/1/latest?apikey=pub_49020b2426982e3baff9174122d14619df4f1&q=top&category=${category}`;
+    let response = await fetch(api);
+    let json = await response.json();
+    this.setArticles(json.results);
   }
 
   render(){
 
-    let {articles} = this.state;
+    const {articles} = this.state;
 
-      return(
+      return(        
         <>
-            <Navbar onsearch={this.onSearch}/>
-            <NewList articles={articles}/>            
-        </>
+        <Router>
+          <Navbar setArticles={this.setArticles} setCategory={this.setCategory} category={this.state.category}/>
+          <Routes>
+            <Route path="/NewsPedia" element={<NewsList articles={articles}/>} />
+            <Route path="/Sport" element={<NewsList articles={articles} />} />
+            <Route path="/Business" element={<NewsList articles={articles}/>} />
+            <Route path="/Entertainment" element={<NewsList articles={articles} />} />
+            <Route path="/Health" element={<NewsList articles={articles} />} />
+            <Route path="/Food" element={<NewsList articles={articles}  />} />
+            <Route path="/Other" element={<NewsList articles={articles} />} />
+          </Routes>
+        </Router>
+      </>
       );
   }
 }
