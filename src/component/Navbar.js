@@ -29,6 +29,7 @@ export class Navbar extends Component {
     }
 
     console.log("this is searchers",searcher);
+    console.log(window.location.pathname.slice(1).toLowerCase());
     console.log(window.location.pathname.slice(1).toLowerCase() === "newspedia" ? "top" : window.location.pathname.slice(1).toLowerCase());
     let api = `https://newsdata.io/api/1/latest?apikey=pub_49020b2426982e3baff9174122d14619df4f1&q=${searcher}&category=${window.location.pathname.slice(1).toLowerCase() === "newspedia" ? "top" : window.location.pathname.slice(1).toLowerCase()}`;
     let option = {
