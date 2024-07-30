@@ -28,9 +28,6 @@ export class Navbar extends Component {
       searcher = "top";
     }
 
-    console.log("this is searchers",searcher);
-    console.log(window.location.pathname.slice(1).toLowerCase());
-    console.log(window.location.pathname.slice(1).toLowerCase() === ("newspedia/" || "newspedia")? "top" : window.location.pathname.slice(1).toLowerCase());
     let api = `https://newsdata.io/api/1/latest?apikey=pub_49020b2426982e3baff9174122d14619df4f1&q=${searcher}&category=${window.location.pathname.slice(1).toLowerCase() === ("newspedia/" || "newspedia") ? "top" : window.location.pathname.slice(1).toLowerCase()}`;
     let option = {
       method:"GET",
@@ -38,9 +35,7 @@ export class Navbar extends Component {
    }
     let response = await fetch(api,option);
     let json = await response.json();
-    this.props.setArticles(json.results);
-    
-    console.log(json.results);
+    this.props.setArticles(json.results);        
   }
 
   render() {
