@@ -29,7 +29,7 @@ export class NewsList extends Component {
             <div className='row'>
                 { articles.map((element)=>{
                   if(element.image_url!=null && element.link!=null && element.description!=null && element.title!=null){
-                    return <div className='col-md-3 m-3'><NewItem key={element} img={element.image_url} title = {element.title.slice(0,50)} desp={element.description.slice(0,90)} url={element.link} /></div>
+                    return <div className='col-md-3 m-3'><NewItem key={element} img={element.image_url} title = {element.title.slice(0,50)+".."} desp={element.description.slice(0,80)+".."} url={element.link} pubDate={element.pubDate} /></div>
                   }else{
                     return null;
                   }          

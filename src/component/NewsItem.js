@@ -9,7 +9,8 @@ export class NewsItem extends Component {
             <div className="card-body">
                 <h5 className="card-title">{this.props.title}</h5>
                 <p className="card-text">{this.props.desp}</p>
-                <a href={this.props.url} target='_blank' rel="noreferrer" className="btn btn-primary">Go somewhere</a>
+                <p className="card-text"><small className="text-body-secondary">{new Date(this.props.pubDate).toGMTString()}</small></p>                
+                <a href={this.props.url} target='_blank' rel="noreferrer" className="btn btn-primary">Read more</a>
             </div>
         </div>
       </>

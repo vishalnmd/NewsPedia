@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import LoadingBar from 'react-top-loading-bar';
 
 export class Navbar extends Component {
 
@@ -8,10 +9,6 @@ export class Navbar extends Component {
       this.state = {
         searchVal:null
       }    
-  }
-
-  componentDidMount(){
-    this.onSearch(this.state.searchVal);
   }
 
   onChange = (event)=>{
@@ -28,14 +25,19 @@ export class Navbar extends Component {
       searcher = "top";
     }
 
-    let api = `https://newsdata.io/api/1/latest?apikey=pub_49020b2426982e3baff9174122d14619df4f1&q=${searcher}&category=${window.location.pathname.slice(1).toLowerCase() === ("newspedia/" || "newspedia") ? "top" : window.location.pathname.slice(1).toLowerCase()}`;
-    let option = {
-      method:"GET",
-      apiKey:"TfTOk2_goyvEdJOxZr0XJxoKoEKLU5Fpk_Q8CS9THWq1k95S"
-   }
-    let response = await fetch(api,option);
+    console.log(window.location.pathname.slice(1).toLowerCase());
+
+    let tail = window.location.pathname.slice(1).toLowerCase();
+
+    this.props.setProgress(10);
+    let api = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_KEY}}&q=${searcher}&category=${(tail === "newspedia/" || tail === "newspedia" )? "top" : tail}`;
+    this.props.setProgress(20);
+    let response = await fetch(api);
+    this.props.setProgress(40);
     let json = await response.json();
+    this.props.setProgress(70);
     this.props.setArticles(json.results);        
+    this.props.setProgress(100);
   }
 
   render() {
@@ -43,7 +45,14 @@ export class Navbar extends Component {
     let {srchVal} = this.state;
     return (
       <>
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+         <div>
+            <LoadingBar
+              color='#f11946'
+              progress={this.props.progress}
+              onLoaderFinished={() => this.props.setProgress(0)}
+            />              
+        </div>
+        <nav className="navbar navbar-expand-lg bg-body-secondary" >
             <div className="container-fluid">
                 <Link className="navbar-brand" to="/NewsPedia">NewsPedia</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

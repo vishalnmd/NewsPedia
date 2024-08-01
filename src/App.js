@@ -10,7 +10,8 @@ class Func extends Component{
     super(props);
     this.state ={
       articles:null,
-      category:"top"
+      category:"top",
+      progress:0
     }
   }
 
@@ -27,15 +28,24 @@ class Func extends Component{
     this.fetchArticles(category);
   }
 
+  setProgress = (prg)=>{
+    this.setState({progress:prg})
+  }
+
   componentDidMount() {
     this.fetchArticles(this.state.category); // Fetch articles when component mounts
   }
 
   fetchArticles = async (category) => {
-    const api = `https://newsdata.io/api/1/latest?apikey=pub_49020b2426982e3baff9174122d14619df4f1&q=top&category=${category}`;
+    const api = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_KEY}&q=top&category=${category}`;
+    this.setProgress(15);
     let response = await fetch(api);
+    this.setProgress(45);
     let json = await response.json();
+    this.setProgress(65);
     this.setArticles(json.results);
+    this.setProgress(100);
+    console.log("Fetch Artical method of App.js")
   }
 
   render(){
@@ -45,7 +55,7 @@ class Func extends Component{
       return(        
         <>
         <Router>
-          <Navbar setArticles={this.setArticles} setCategory={this.setCategory} category={this.state.category}/>
+          <Navbar setArticles={this.setArticles} setProgress={this.setProgress} progress={this.state.progress} setCategory={this.setCategory} category={this.state.category}/>
           <Routes>
             <Route path="/NewsPedia" element={<NewsList articles={articles}/>} />
             <Route path="/Sport" element={<NewsList articles={articles} />} />
