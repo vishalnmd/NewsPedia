@@ -11,6 +11,10 @@ export class Navbar extends Component {
       }    
   }
 
+  componentDidMount(){
+    this.onSearch(this.state.searchVal);
+  }
+
   onChange = (event)=>{
     this.setState({searchVal:event.target.value})
   }
@@ -30,7 +34,7 @@ export class Navbar extends Component {
     let tail = window.location.pathname.slice(1).toLowerCase();
 
     this.props.setProgress(10);
-    let api = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_KEY}}&q=${searcher}&category=${(tail === "newspedia/" || tail === "newspedia" )? "top" : tail}`;
+    let api = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_API_KEY}&q=${searcher}&category=${(tail === "newspedia/" || tail === "newspedia" )? "top" : tail}`;
     this.props.setProgress(20);
     let response = await fetch(api);
     this.props.setProgress(40);
